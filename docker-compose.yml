@@ -1,0 +1,22 @@
+version: 0.0.1
+services:
+  redis:
+    image: redis:7.2-rc-alpine3.18
+    hostname: redis
+    restart: always
+    ports:
+      - 6380:6379
+    networks:
+      - spring-boot-network
+  telegram:
+    build: .
+    image: telegram-bot:lts
+    container_name: telegram-bot
+    restart: always
+    networks:
+      - spring-boot-network
+    depends_on:
+      - redis
+networks:
+  spring-boot-network:
+    driver: bridge
